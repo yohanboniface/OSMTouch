@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtLocation 5.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
-import "components"
+import QtQuick.XmlListModel 2.0
 
 /*!
     \brief MainView with a Label and Button elements.
@@ -25,6 +25,9 @@ MainView {
     backgroundColor: "#444444"
 
     Page {
+        id: mapPage
+        property double lastKnownLat
+        property double lastKnownLng
 
         Map {
             id: map
@@ -64,10 +67,29 @@ MainView {
                         if (src.position.latitudeValid && src.position.longitudeValid) {
                             var coord = src.position.coordinate;
                             console.log("Coordinate:", coord.longitude, coord.latitude);
+                            map.center.latitude = coord.latitude;
+                            map.center.longitude = coord.longitude;
+                            map.zoomLevel = 16;
+                        } else if (mapPage.lastKnownLat && mapPage.lastKnownLng) {
+                            map.center.latitude = mapPage.lastKnownLat;
+                            map.center.longitude = mapPage.lastKnownLng;
+                            map.zoomLevel = 14;
                         } else {
                             PopupUtils.open(dialog);
                         }
                     }
+                }
+            }
+        }
+
+        GeoIPModel {
+            // TODO find a way to trigger call only at button click
+            id: geoIP
+            onStatusChanged: {
+                if (status == XmlListModel.Ready && geoIP.get(0).city != "None") {
+                    mapPage.lastKnownLng = geoIP.get(0).lng;
+                    mapPage.lastKnownLat = geoIP.get(0).lat;
+                    console.log("Coordinate:", mapPage.lastKnownLng, mapPage.lastKnownLat);
                 }
             }
         }
