@@ -1,0 +1,15 @@
+{
+    "architecture": "all",
+    "description": "description of SimpleOSMMap",
+    "framework": "ubuntu-sdk-13.10",
+    "hooks": {
+        "SimpleOSMMap": {
+            "apparmor": "SimpleOSMMap.json",
+            "desktop": "SimpleOSMMap.desktop"
+        }
+    },
+    "maintainer": "Yohan Boniface <ybon@ybon@edoardo.fr>",
+    "name": "com.ubuntu.developer.yohanboniface.simpleosmmap",
+    "title": "SimpleOSMMap",
+    "version": "0.1"
+}
