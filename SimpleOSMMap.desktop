@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=SimpleOSMMap
-Comment=Very simple OpenStreetMap based map app
-Exec=qmlscene $@ SimpleOSMMap.qml
-Icon=icons/SimpleOSMMap64.png
-Terminal=false
-Type=Application
-X-Ubuntu-Touch=true

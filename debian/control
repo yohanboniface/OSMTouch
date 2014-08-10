@@ -1,0 +1,22 @@
+Source: osmtouch
+Section: utils
+Priority: extra
+Maintainer: Yohan Boniface <yohanboniface@free.fr>
+Build-Depends: debhelper (>= 9.0.0)
+Standards-Version: 3.9.5
+Homepage: https://launchpad.net/osmtouch
+Vcs-Bzr: https://code.launchpad.net/~yohanboniface/osmtouch/trunk
+
+Package: osmtouch
+Architecture: all
+Depends: ${misc:Depends},
+	 qtdeclarative5-hud1.0,
+	 qtdeclarative5-qtquick2-plugin,
+	 qtdeclarative5-ubuntu-ui-toolkit-plugin,
+	 qtdeclarative5-qtlocation-plugin,
+	 qtdeclarative5-qtpositioning-plugin,
+	 qmlscene
+Description: OSM application
+ OpenStreetMap is a map of the world, created by people like you and
+ free to use under an open license. This application brings
+ OpenStreetMap to your Ubuntu desktop.

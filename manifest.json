@@ -1,15 +1,15 @@
 {
     "architecture": "all",
-    "description": "description of SimpleOSMMap",
-    "framework": "ubuntu-sdk-13.10",
+    "description": "OpenStreetMap on Ubuntu Touch",
+    "framework": "ubuntu-sdk-14.04-qml-dev1",
     "hooks": {
-        "SimpleOSMMap": {
-            "apparmor": "SimpleOSMMap.json",
-            "desktop": "SimpleOSMMap.desktop"
+        "OSMTouch": {
+            "apparmor": "OSMTouch.json",
+            "desktop": "OSMTouch.desktop"
         }
     },
-    "maintainer": "Yohan Boniface <ybon@ybon@edoardo.fr>",
-    "name": "com.ubuntu.developer.yohanboniface.simpleosmmap",
-    "title": "SimpleOSMMap",
-    "version": "0.1"
+    "maintainer": "Yohan Boniface <hi@yohanboniface.me>",
+    "name": "me.yohanboniface.osmtouch",
+    "title": "OSMTouch",
+    "version": "0.1.3"
 }

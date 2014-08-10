@@ -1,0 +1,6 @@
+OSMTouch.desktop usr/share/applications/
+OSMTouch.qml usr/share/osmtouch/
+OSMTouch64.png usr/share/icons/hicolor/192x192/apps/
+components usr/share/osmtouch/
+models usr/share/osmtouch/
+icons usr/share/osmtouch/

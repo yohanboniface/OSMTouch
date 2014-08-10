@@ -3,6 +3,5 @@
         "networking",
         "location"
     ],
-    "policy_version": 1,
-    "template": "unconfined"
+    "policy_version": 1.1
 }

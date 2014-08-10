@@ -14,8 +14,5 @@ autopilot:
 	chmod +x tests/autopilot/run
 	tests/autopilot/run
 
-check:
-	qmltestrunner -input tests/unit
-
 run:
-	/usr/bin/qmlscene $@ SimpleOSMMap.qml
+	/usr/bin/qmlscene $@ OSMTouch.qml
