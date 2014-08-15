@@ -5,9 +5,11 @@ import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 1.0
 import QtQuick.XmlListModel 2.0
 import Ubuntu.Components.ListItems 1.0 as ListItem
+import QtQuick.LocalStorage 2.0
 import "components" as Components
 import "models" as Models
 import "components/Helpers.js" as Helpers
+import "components/History.js" as History
 
 
 /*!
@@ -33,10 +35,10 @@ MainView {
     height: units.gu(75)
     backgroundColor: "#fff"
 
-    Page {
+    Components.PageWithBottomEdge {
         id: mapPage
         visible: true
-        title: ' '
+        title: 'Map'
         property double lastKnownLat
         property double lastKnownLng
 
@@ -350,6 +352,66 @@ MainView {
                  }
              }
         }
+
+        bottomEdgePageComponent: Page {
+            id: historyPage
+            title: i18n.tr('Recent searchs')
+            anchors.fill: parent
+
+            Component.onCompleted: {
+                History.init();
+                var items = History.pull(), item;
+                for(var i=0; i < items.length; i++) {
+                    item = items.item(i);
+                    historyModel.append({
+                        name: item.name,
+                        lat: item.lat,
+                        lng: item.lng
+                    });
+                }
+            }
+
+            ListModel {
+                id: historyModel
+            }
+
+            ListView {
+                id: listView
+                clip: true;
+                anchors.fill: parent
+                model: historyModel
+                delegate: ListItem.Base {
+                    Label {
+                        text: name
+                        height: units.gu(5)
+                        width: parent.width-units.gu(2)
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideRight
+                    }
+                    onClicked: {
+                        map.zoomLevel = 17;
+                        map.center.latitude = lat;
+                        map.center.longitude = lng;
+                        stack.pop();
+                    }
+                }
+                Scrollbar {
+                    flickableItem: listView;
+                    align: Qt.AlignTrailing;
+                }
+            }
+        }
+        bottomEdgeTitle: i18n.tr("Recent")
+
+    }
+
+    PageStack {
+        id: stack
+        Component.onCompleted: stack.push(mapPage)
+    }
+
+    Components.HistorySheet {
+        id: historyManager
     }
 
     Components.SearchSheet {
