@@ -358,8 +358,8 @@ MainView {
             title: i18n.tr('Recent searchs')
             anchors.fill: parent
 
-            Component.onCompleted: {
-                History.init();
+            function reset() {
+                historyModel.clear();
                 var items = History.pull(), item;
                 for(var i=0; i < items.length; i++) {
                     item = items.item(i);
@@ -369,6 +369,11 @@ MainView {
                         lng: item.lng
                     });
                 }
+            }
+
+            Component.onCompleted: {
+                History.init();
+                reset();
             }
 
             ListModel {
