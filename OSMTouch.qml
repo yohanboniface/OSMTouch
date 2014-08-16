@@ -410,10 +410,6 @@ MainView {
         Component.onCompleted: stack.push(mapPage)
     }
 
-    Components.HistorySheet {
-        id: historyManager
-    }
-
     Components.SearchSheet {
         id: searchManager
     }
