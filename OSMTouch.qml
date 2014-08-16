@@ -355,7 +355,7 @@ MainView {
 
         bottomEdgePageComponent: Page {
             id: historyPage
-            title: i18n.tr('Recent searchs')
+            title: i18n.tr('Recent places')
             anchors.fill: parent
 
             function reset() {
@@ -373,7 +373,6 @@ MainView {
 
             Component.onCompleted: {
                 History.init();
-                reset();
             }
 
             ListModel {
@@ -405,9 +404,14 @@ MainView {
                     align: Qt.AlignTrailing;
                 }
             }
-        }
-        bottomEdgeTitle: i18n.tr("Recent")
 
+            function onPressed () {
+                historyPage.reset();
+            }
+
+        }
+
+        bottomEdgeTitle: i18n.tr("Recent")
     }
 
     PageStack {

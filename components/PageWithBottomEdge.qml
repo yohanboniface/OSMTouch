@@ -259,6 +259,10 @@ Page {
                 tip.hiden = false
                 hideIndicator.restart()
             }
+
+            onPressed: {
+                bottomEdgePage.onPressed();
+            }
         }
 
         state: "collapsed"
