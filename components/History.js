@@ -24,9 +24,10 @@ function push(name, lat, lng) {
         // search and click, we want it to turn first on the history list again.
         tx.executeSql('DELETE FROM history WHERE name=? AND lat=? AND lng=?;', [name, lat, lng]);
         var rs = tx.executeSql('INSERT OR REPLACE INTO history (name, lat, lng) VALUES (?,?,?);', [name,lat,lng]);
-            if (rs.rowsAffected > 0) {
-                res = 1;
-            }
+        if (rs.rowsAffected > 0) {
+            res = 1;
+        }
+        tx.executeSql('DELETE FROM history ORDER BY id desc LIMIT -1 OFFSET 20;');
     });
     return res;
 }
