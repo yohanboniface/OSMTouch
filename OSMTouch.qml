@@ -54,6 +54,14 @@ MainView {
 
         head.actions: [
             Action {
+                id: searchPlaceAction
+                text: i18n.tr("Search a place")
+                iconName: 'search'
+                onTriggered: {
+                    stack.push(searchPage);
+                }
+            },
+            Action {
                 id: locateAction
                 text: i18n.tr("Where am I")
                 iconSource: Qt.resolvedUrl("icons/locate.svg")
@@ -62,19 +70,11 @@ MainView {
                 }
             },
             Action {
-                id: searchPlaceAction
-                text: i18n.tr("Search a place")
-                iconName: 'search'
-                onTriggered: {
-                    PopupUtils.open(searchManager);
-                }
-            },
-            Action {
                 id: selectPoiAction
                 iconName: 'location'
                 text: i18n.tr("Points of interest nearby")
                 onTriggered: {
-                    PopupUtils.open(poiManager);
+                    stack.push(poiPage);
                 }
             }
         ]
@@ -419,11 +419,11 @@ MainView {
         Component.onCompleted: stack.push(mapPage)
     }
 
-    Components.SearchSheet {
-        id: searchManager
+    Components.SearchPage {
+        id: searchPage
     }
 
-    Components.PoiSheet {
-        id: poiManager
+    Components.PoiPage {
+        id: poiPage
     }
 }
