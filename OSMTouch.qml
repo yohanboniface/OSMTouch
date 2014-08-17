@@ -83,8 +83,8 @@ MainView {
             id: map
             zoomLevel: 5
             center {
-                latitude: 49.2
-                longitude: 4.1003
+                latitude: 51
+                longitude: 2
             }
             StateSaver.properties: "zoomLevel,center.latitude,center.longitude"
             property var poiBbox
