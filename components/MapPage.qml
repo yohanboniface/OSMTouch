@@ -281,7 +281,7 @@ PageWithBottomEdge {
                     map.zoomLevel = Math.max(map.zoomLevel, 14);
                     approximateGeolocation.show();
                 } else {
-                    PopupUtils.open(dialog);
+                    PopupUtils.open(noPositionDialog);
                 }
             }
 
@@ -336,14 +336,14 @@ PageWithBottomEdge {
         }
 
         Component {
-             id: dialog
+             id: noPositionDialog
              Dialog {
-                 id: dialogue
+                 id: dialog
                  title: i18n.tr("Error")
                  text: i18n.tr("Sorry, no location available. Please check your location settings.")
                  Button {
                      text: i18n.tr("OK, too bad…")
-                     onClicked: PopupUtils.close(dialogue)
+                     onClicked: PopupUtils.close(dialog)
                  }
              }
         }
