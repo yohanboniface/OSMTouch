@@ -108,8 +108,7 @@ Page {
                 onClicked: {
                     History.push(name, lat, lng);
                     map.goToLatLng(lat, lng);
-                    searchMarker.coordinate.longitude = lng;
-                    searchMarker.coordinate.latitude = lat;
+                    map.addSearchMarker(lat, lng);
                     searchPage.pageStack.pop();
                 }
             }
