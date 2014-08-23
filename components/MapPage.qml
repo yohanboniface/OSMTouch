@@ -85,6 +85,7 @@ PageWithBottomEdge {
                 id: poiPlaceModel
                 onError: {
                     httpFailedSearch.show();
+                    mapLoading.hide();
                 }
                 onLoading: {
                     mapLoading.show();
