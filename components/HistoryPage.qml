@@ -43,8 +43,6 @@ Page {
     Component {
         id: highlight
         Rectangle {
-            width: 180
-            height: 40
             color: "lightgrey"
             y: listView.currentItem ? listView.currentItem.y : 0
         }
