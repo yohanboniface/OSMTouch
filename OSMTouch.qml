@@ -302,6 +302,12 @@ MainView {
                     PopupUtils.open(dialog);
                 }
             }
+
+            function goToLatLng (lat, lng) {
+                map.center.latitude = lat;
+                map.center.longitude = lng;
+                map.zoomLevel = 17;
+            }
         }
 
         Rectangle {
@@ -354,8 +360,43 @@ MainView {
         }
 
         bottomEdgePageComponent: Components.HistoryPage {}
-
         bottomEdgeTitle: i18n.tr("Recent")
+
+        onBottomEdgeExposedAreaChanged: {
+            var margin = 50;
+            if (!bottomEdgePage) return;
+            if (bottomEdgeExposedHeight < margin) {
+                bottomEdgePage.currentIndex = -1;
+                return;
+            }
+
+            var index = bottomEdgePage.indexAt(50, bottomEdgeExposedHeight - margin);
+            if (index < 3) {
+                bottomEdgePage.currentIndex = index;
+            } else {
+                bottomEdgePage.currentIndex = -1;
+            }
+        }
+
+        onBottomEdgeReleased: {
+            if (bottomEdgePage.currentIndex < 3) {
+                bottomEdgePage.activateCurrentIndex();
+            }
+            bottomEdgePage.currentIndex = -1;
+        }
+
+        onBottomEdgePressed: {
+            bottomEdgePage.onPressed();
+        }
+
+        onBottomEdgeDismissed: {
+            bottomEdgePage.currentIndex = -1;
+        }
+
+        onBottomEdgeExpanded: {
+            bottomEdgePage.currentIndex = -1;
+        }
+
     }
 
     PageStack {

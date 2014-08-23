@@ -9,6 +9,9 @@ import "History.js" as History
 
 Page {
     id: historyPage
+
+    property alias currentIndex: listView.currentIndex
+
     title: i18n.tr('Recent places')
     anchors.fill: parent
 
@@ -33,11 +36,23 @@ Page {
         id: historyModel
     }
 
+    Component {
+        id: highlight
+        Rectangle {
+            width: 180
+            height: 40
+            color: "lightgrey"
+            y: listView.currentItem ? listView.currentItem.y : 0
+        }
+    }
+
     ListView {
         id: listView
         clip: true;
         anchors.fill: parent
         model: historyModel
+        highlight: highlight
+        currentIndex: -1
         delegate: ListItem.Base {
             Label {
                 text: name
@@ -47,9 +62,7 @@ Page {
                 elide: Text.ElideRight
             }
             onClicked: {
-                map.zoomLevel = 17;
-                map.center.latitude = lat;
-                map.center.longitude = lng;
+                map.goToLatLng(lat, lng);
                 stack.pop();
             }
         }
@@ -59,8 +72,17 @@ Page {
         }
     }
 
+    function activateCurrentIndex () {
+        if (currentIndex === -1) return;
+        var place = historyModel.get(currentIndex);
+        map.goToLatLng(place.lat, place.lng);
+    }
+
     function onPressed () {
         historyPage.reset();
     }
 
+    function indexAt (x, y) {
+        return listView.indexAt(x, y);
+    }
 }

@@ -72,8 +72,9 @@ Page {
     property alias bottomEdgePageSource: edgeLoader.source
     property alias bottomEdgeTitle: tipLabel.text
     property alias bottomEdgeEnabled: bottomEdge.visible
-    property int bottomEdgeExpandThreshold: page.height * 0.2
+    property int bottomEdgeExpandThreshold: page.height * 0.3
     property int bottomEdgeExposedArea: bottomEdge.state !== "expanded" ? (page.height - bottomEdge.y - bottomEdge.tipHeight) : _areaWhenExpanded
+    property int bottomEdgeExposedHeight: 0
     property bool reloadBottomEdgePage: true
 
     readonly property alias bottomEdgePage: edgeLoader.item
@@ -86,6 +87,8 @@ Page {
 
     signal bottomEdgeReleased()
     signal bottomEdgeDismissed()
+    signal bottomEdgePressed()
+    signal bottomEdgeExpanded()
 
 
     function showBottomEdgePage(source, properties)
@@ -249,6 +252,7 @@ Page {
                 page.bottomEdgeReleased()
                 if (bottomEdge.y < (page.height - bottomEdgeExpandThreshold - bottomEdge.tipHeight)) {
                     bottomEdge.state = "expanded"
+                    page.bottomEdgeExpanded();
                 } else {
                     bottomEdge.state = "collapsed"
                     bottomEdge.y = bottomEdge.height
@@ -261,7 +265,11 @@ Page {
             }
 
             onPressed: {
-                bottomEdgePage.onPressed();
+                page.bottomEdgePressed()
+            }
+
+            onPositionChanged: {
+                bottomEdgeExposedHeight = page.height - bottomEdge.y;
             }
         }
 

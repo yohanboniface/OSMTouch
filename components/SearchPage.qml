@@ -107,9 +107,7 @@ Page {
                 }
                 onClicked: {
                     History.push(name, lat, lng);
-                    map.zoomLevel = 17;
-                    map.center.latitude = lat;
-                    map.center.longitude = lng;
+                    map.goToLatLng(lat, lng);
                     searchMarker.coordinate.longitude = lng;
                     searchMarker.coordinate.latitude = lat;
                     searchPage.pageStack.pop();
