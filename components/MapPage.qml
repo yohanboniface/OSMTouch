@@ -47,7 +47,7 @@ PageWithBottomEdge {
             },
             Action {
                 id: selectPoiAction
-                iconName: 'location'
+                iconSource: Qt.resolvedUrl("../icons/nearby.svg")
                 text: i18n.tr("Points of interest nearby")
                 onTriggered: {
                     stack.push(poiPage);
