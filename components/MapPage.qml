@@ -369,7 +369,7 @@ PageWithBottomEdge {
         }
 
         onBottomEdgeDismissed: {
-            bottomEdgePage.unsetCurrentIndex();
+            if (bottomEdgePage) bottomEdgePage.unsetCurrentIndex();
         }
 
         onBottomEdgeExpanded: {
