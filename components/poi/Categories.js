@@ -61,6 +61,14 @@ var groups = [
                     {label: i18n.tr("School"), clause: "[amenity=school]"},
                     {label: i18n.tr("Kindergarten"), clause: "[amenity=kindergarten]"},
                 ]
+            },
+            {
+                label: i18n.tr("Waterway"),
+                elements: [
+                    {label: i18n.tr("Harbour"), clause: "[harbour=yes]"},
+                    {label: i18n.tr("Lock"), clause: "[lock=yes]", extraTags: 'lock_name,lock:VHF_channel,vhf_channel,lock:height,lock_ref'},
+                    {label: i18n.tr("Boatyard"), clause: "[waterway=boatyard]"},
+                ]
             }
 ];
 var data = function () {
