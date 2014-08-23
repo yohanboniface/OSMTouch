@@ -13,7 +13,7 @@ import "History.js" as History
 PageWithBottomEdge {
         id: mapPage
         visible: true
-        title: 'Map'
+        title: poiPlaceModel.label || 'Map'
         property double lastKnownLat
         property double lastKnownLng
         property alias map: map

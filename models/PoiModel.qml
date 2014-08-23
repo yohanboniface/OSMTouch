@@ -15,13 +15,13 @@ XmlListModel {
         var url = baseUrl;
         url = url.replace('{bbox}', bbox);
         url = url.replace('{clause}', clause);
-        console.log(url);
         source = url;
     }
 
     function clear () {
         clause = "";
         source = "";
+        label = "";
     }
 
     function isActive () {
