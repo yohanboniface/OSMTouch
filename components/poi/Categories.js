@@ -2,7 +2,7 @@ var groups = [
             {
                 label: i18n.tr("Tourism"),
                 elements: [
-                    {label: i18n.tr("Restaurant"), clause: "[amenity=restaurant]"},
+                    {label: i18n.tr("Restaurant"), clause: "[amenity=restaurant]", extraTags: 'cuisine'},
                     {label: i18n.tr("Bar"), clause: "[amenity=bar]"},
                     {label: i18n.tr("Cafe"), clause: "[amenity=cafe]"},
                     {label: i18n.tr("Pub"), clause: "[amenity=pub]"},
@@ -37,7 +37,7 @@ var groups = [
             {
                 label: i18n.tr("Shopping"),
                 elements: [
-                    {label: i18n.tr("Organic shop"), clause: "[shop=*][organic=only]"},
+                    {label: i18n.tr("Organic shop"), clause: "[shop][organic=only]"},
                     {label: i18n.tr("Supermarket"), clause: "[shop=supermarket]"},
                     {label: i18n.tr("Bakery"), clause: "[shop=bakery]"},
                     {label: i18n.tr("Sea Food"), clause: "[shop=seafood]"},

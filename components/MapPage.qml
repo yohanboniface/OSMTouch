@@ -9,6 +9,7 @@ import QtQuick.LocalStorage 2.0
 import "../models" as Models
 import "Helpers.js" as Helpers
 import "History.js" as History
+import "poi" as Poi
 
 PageWithBottomEdge {
         id: mapPage
@@ -17,6 +18,7 @@ PageWithBottomEdge {
         property double lastKnownLat
         property double lastKnownLng
         property alias map: map
+        property alias category: poiPlaceModel.category
 
         head.backAction: Action {
             id: clearPoiAction
@@ -134,15 +136,8 @@ PageWithBottomEdge {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                placePopover.update(model);
-                                placePopover.show();
-                                poiImage.state = "HIGHLIGHT"
+                                stack.push(Qt.resolvedUrl("./poi/View.qml"),{source: model, category: category});
                             }
-                        }
-                        states: State {
-                            name: "HIGHLIGHT"
-                            when: placePopover.visible && placePopover.osm_id === model.osm_id
-                            PropertyChanges {target: poiImage; source: "../icons/marker_hl.svg"}
                         }
                     }
                 }
@@ -253,9 +248,8 @@ PageWithBottomEdge {
                 }
             }
 
-            function resetPoi (clause, label) {
-                poiPlaceModel.clause = clause;
-                poiPlaceModel.label = label;
+            function resetPoi (model) {
+                poiPlaceModel.category = model;
                 map.zoomLevel = Math.max(map.zoomLevel, map.minPoiZoom)
                 fetchPoi();
             }
@@ -311,10 +305,6 @@ PageWithBottomEdge {
                 text: " © OpenStreetMap contributors"
                 fontSize: "small"
             }
-        }
-
-        PlacePopover {
-            id: placePopover
         }
 
         PositionSource {

@@ -3,6 +3,7 @@ import Ubuntu.Components 1.1
 import "components" as Components
 import "models" as Models
 import "components/Helpers.js" as Helpers
+import "components/poi" as Poi
 
 
 /*!
@@ -43,7 +44,7 @@ MainView {
         id: searchPage
     }
 
-    Components.PoiPage {
+    Poi.List {
         id: poiPage
     }
 }

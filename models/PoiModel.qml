@@ -3,21 +3,21 @@ import QtQuick 2.0
 ListModel {
 
     readonly property string baseUrl: 'http://overpass-api.de/api/interpreter?data=[out:json];(node{clause}({bbox});way{clause}({bbox}));out center;'
-    property string clause: ""
-    property string label: ""
-    property bool active: !!clause
+    property var category
+    property string label: category? category.label: '';
+    property bool active: !!category
 
     signal error()
     signal loading()
     signal done()
 
     function search (bbox) {
-        if (clause === "") {
+        if (!active) {
             return;
         }
         var url = baseUrl;
         url = url.replace(/\{bbox\}/g, bbox);
-        url = url.replace(/\{clause\}/g, clause);
+        url = url.replace(/\{clause\}/g, category.clause);
 
         var xhr = new XMLHttpRequest;
         xhr.open("GET", url);
@@ -37,8 +37,7 @@ ListModel {
     }
 
     function purge () {
-        clause = "";
-        label = "";
+        category = null;
         clear();
     }
 
@@ -57,7 +56,7 @@ ListModel {
                 continue;
             }
             place.osm_id = el.id + el.type;
-            place.name = el.tags.name;
+            place.name = el.tags.name || label;
             place.phone = el.tags.phone;
             place.website = el.tags.website;
             place.wheelchair = el.tags.wheelchair;

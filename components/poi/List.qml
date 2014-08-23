@@ -3,7 +3,7 @@ import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 1.0
 import Ubuntu.Components.ListItems 1.0 as ListItem
 import "Categories.js" as Categories
-import "Helpers.js" as Helpers
+import "../Helpers.js" as Helpers
 
 
 
@@ -55,7 +55,7 @@ Page {
                 text: label
                 progression: true
                 onClicked: {
-                    map.resetPoi(clause, label);
+                    map.resetPoi(model);
                     poiComponent.pageStack.pop();
                 }
 
