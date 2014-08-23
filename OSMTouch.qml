@@ -366,7 +366,7 @@ MainView {
             var margin = 50;
             if (!bottomEdgePage) return;
             if (bottomEdgeExposedHeight < margin) {
-                bottomEdgePage.currentIndex = -1;
+                bottomEdgePage.unsetCurrentIndex();
                 return;
             }
 
@@ -374,7 +374,7 @@ MainView {
             if (index < 3) {
                 bottomEdgePage.currentIndex = index;
             } else {
-                bottomEdgePage.currentIndex = -1;
+                bottomEdgePage.unsetCurrentIndex();
             }
         }
 
@@ -382,7 +382,7 @@ MainView {
             if (bottomEdgePage.currentIndex < 3) {
                 bottomEdgePage.activateCurrentIndex();
             }
-            bottomEdgePage.currentIndex = -1;
+            bottomEdgePage.unsetCurrentIndex();
         }
 
         onBottomEdgePressed: {
@@ -390,11 +390,11 @@ MainView {
         }
 
         onBottomEdgeDismissed: {
-            bottomEdgePage.currentIndex = -1;
+            bottomEdgePage.unsetCurrentIndex();
         }
 
         onBottomEdgeExpanded: {
-            bottomEdgePage.currentIndex = -1;
+            bottomEdgePage.unsetCurrentIndex();
         }
 
     }

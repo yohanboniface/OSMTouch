@@ -28,6 +28,10 @@ Page {
         }
     }
 
+    function unsetCurrentIndex () {
+        if (listView.count) listView.currentIndex = -1;
+    }
+
     Component.onCompleted: {
         History.init();
     }
