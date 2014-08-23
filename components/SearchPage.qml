@@ -18,7 +18,6 @@ Page {
     }
 
     onVisibleChanged: {
-        map.visible = !visible
         if (visible) searchLabel.forceActiveFocus();
     }
 
@@ -46,6 +45,7 @@ Page {
         id: searchLabel
         anchors.right: parent.right
         hasClearButton: true
+        focus: true
         placeholderText: i18n.tr("Enter a place name")
         primaryItem: Image {
             height: parent.height*0.5

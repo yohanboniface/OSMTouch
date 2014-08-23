@@ -46,6 +46,18 @@ Page {
         }
     }
 
+    Label {
+        id: emptyHistory
+        objectName: "emptyHistory"
+        width: parent.width-units.gu(6)
+        text: i18n.tr('Nothing in the history yet')
+        visible: !listView.count
+        anchors.centerIn: parent
+        fontSize: "medium"
+        wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignHCenter
+    }
+
     ListView {
         id: listView
         clip: true;
