@@ -8,7 +8,7 @@ import "Helpers.js" as Helpers
 
 Popover {
     id: mapPopover
-    property int osm_id: 0
+    property string osm_id
 
     Column {
         anchors {
@@ -89,10 +89,10 @@ Popover {
     function update(model) {
         osm_id = model.osm_id;
         mapPopoverName.text = model.name || poiPlaceModel.label;
-        mapPopoverPhone.value = model.phone;
-        mapPopoverWeb.value = model.website;
-        mapPopoverCuisine.value = model.cuisine;
-        mapPopoverWheelchair.value = model.wheelchair;
+        mapPopoverPhone.value = model.phone || "";
+        mapPopoverWeb.value = model.website || "";
+        mapPopoverCuisine.value = model.cuisine || "";
+        mapPopoverWheelchair.value = model.wheelchair || "";
         mapPopoverZoomButton.lat = model.lat;
         mapPopoverZoomButton.lng = model.lng;
         mapPopoverZoomButton.control.pressed = false;

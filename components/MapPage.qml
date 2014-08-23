@@ -23,9 +23,9 @@ PageWithBottomEdge {
             iconName: 'back'
             text: i18n.tr("Clear")
             onTriggered: {
-                poiPlaceModel.clear();
+                poiPlaceModel.purge();
             }
-            visible: poiPlaceModel.isActive()
+            visible: poiPlaceModel.active
         }
 
         head.actions: [
@@ -83,15 +83,14 @@ PageWithBottomEdge {
 
             Models.PoiModel {
                 id: poiPlaceModel
-                onStatusChanged: {
-                    if(status == XmlListModel.Error) {
-                        httpFailedSearch.show();
-                    }
-                    if (status == XmlListModel.Loading) {
-                        mapLoading.show();
-                    } else {
-                        mapLoading.hide();
-                    }
+                onError: {
+                    httpFailedSearch.show();
+                }
+                onLoading: {
+                    mapLoading.show();
+                }
+                onDone: {
+                    mapLoading.hide();
                 }
             }
 
@@ -239,6 +238,12 @@ PageWithBottomEdge {
                 return [b.left, b.bottom, b.right, b.top].join(",");
             }
 
+            function toBboxStringBltr (b) {
+                // Bottom, left, top, right
+                b = b || bbox();
+                return [b.bottom, b.left, b.top, b.right].join(",");
+            }
+
             function updateUserPosition (position) {
                 userPosition.coordinate = position.coordinate;
                 positionAccuracy.center = position.coordinate;
@@ -257,7 +262,7 @@ PageWithBottomEdge {
             function fetchPoi () {
                 if (zoomLevel >= map.minPoiZoom) {
                     poiBbox = extendedBbox();
-                    poiPlaceModel.search(toBboxStringLbrt(poiBbox));
+                    poiPlaceModel.search(toBboxStringBltr(poiBbox));
                 }
             }
 
@@ -299,7 +304,7 @@ PageWithBottomEdge {
                 bottom: parent.bottom
             }
             height: units.gu(2)
-            width: units.gu(22)
+            width: units.gu(25)
             opacity: 0.7
             Label {
                 text: " © OpenStreetMap contributors"
