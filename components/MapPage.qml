@@ -279,10 +279,10 @@ PageWithBottomEdge {
                 }
             }
 
-            function goToLatLng (lat, lng) {
+            function goToLatLng (lat, lng, zoom) {
                 map.center.latitude = lat;
                 map.center.longitude = lng;
-                map.zoomLevel = 17;
+                map.zoomLevel = zoom || 17;
             }
 
             function addSearchMarker (lat, lng) {

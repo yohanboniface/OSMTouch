@@ -8,6 +8,16 @@ Page {
     property var source;
     property var category;
 
+    head.actions: Action {
+        id: locateAction
+        text: i18n.tr("Zoom to")
+        iconSource: Qt.resolvedUrl("../../icons/zoom_to.svg")
+        onTriggered: {
+            map.goToLatLng(source.lat, source.lng, 18);
+            page.pageStack.pop();
+        }
+    }
+
     Column {
         id: container
         width: parent.width
