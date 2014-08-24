@@ -72,7 +72,7 @@ Page {
     property alias bottomEdgePageSource: edgeLoader.source
     property alias bottomEdgeTitle: tipLabel.text
     property alias bottomEdgeEnabled: bottomEdge.visible
-    property int bottomEdgeExpandThreshold: page.height * 0.3
+    property int bottomEdgeExpandThreshold: page.height * 0.4
     property int bottomEdgeExposedArea: bottomEdge.state !== "expanded" ? (page.height - bottomEdge.y - bottomEdge.tipHeight) : _areaWhenExpanded
     property int bottomEdgeExposedHeight: 0
     property bool reloadBottomEdgePage: true
