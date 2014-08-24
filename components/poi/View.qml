@@ -24,6 +24,17 @@ Page {
         height: parent.height
     }
 
+    Label {
+        id: noDetail
+        width: parent.width-units.gu(6)
+        text: i18n.tr('No details')
+        visible: true
+        anchors.centerIn: parent
+        fontSize: "medium"
+        wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignHCenter
+    }
+
     readonly property var defaultTags: ['phone', 'website', 'wheelchair', 'internet_access']
     readonly property var templates: {
         'phone': 'PhoneRow.qml',
@@ -41,6 +52,7 @@ Page {
             if (!value) continue;
             var row = Qt.createComponent(Qt.resolvedUrl(templates[tag] || "Row.qml"));
             row.createObject(container, {value: value, text: tag});
+            noDetail.visible = false;
         }
 
     }
