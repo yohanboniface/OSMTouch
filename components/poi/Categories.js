@@ -56,7 +56,7 @@ var groups = [
             {
                 label: i18n.tr("Education"),
                 elements: [
-                    {label: i18n.tr("Universtiy"), clause: "[amenity=university]"},
+                    {label: i18n.tr("University"), clause: "[amenity=university]"},
                     {label: i18n.tr("College"), clause: "[amenity=college]"},
                     {label: i18n.tr("School"), clause: "[amenity=school]"},
                     {label: i18n.tr("Kindergarten"), clause: "[amenity=kindergarten]"},
