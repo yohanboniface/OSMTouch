@@ -294,6 +294,7 @@ PageWithBottomEdge {
         }
 
         Rectangle {
+            id: caption
             anchors {
                 right: parent.right
                 bottom: parent.bottom
@@ -301,6 +302,7 @@ PageWithBottomEdge {
             height: units.gu(2)
             width: units.gu(25)
             opacity: 0.7
+            transform: Rotation { origin.x: caption.width - caption.height / 2; origin.y: caption.height / 2; angle: 90}
             Label {
                 text: " © OpenStreetMap contributors"
                 fontSize: "small"
