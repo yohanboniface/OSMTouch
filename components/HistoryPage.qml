@@ -76,7 +76,7 @@ Page {
                 elide: Text.ElideRight
             }
             onClicked: {
-                map.goToLatLng(lat, lng);
+                goTo(model);
                 stack.pop();
             }
         }
@@ -89,6 +89,11 @@ Page {
     function activateCurrentIndex () {
         if (currentIndex === -1) return;
         var place = historyModel.get(currentIndex);
+        goTo(place);
+    }
+
+    function goTo (place) {
+        History.push(place.name, place.lat, place.lng);
         map.goToLatLng(place.lat, place.lng);
     }
 
