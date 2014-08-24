@@ -21,15 +21,16 @@ Page {
     }
 
     Component.onCompleted: {
-        var tags = category.tags || defaultTags, tag;
+        var tags = category.tags || defaultTags, tag, value;
         // We don't use an array as extraTags property, as tags.concat
         // will not consider it as an array (it's a ListModel it seems)
         if (category.extraTags) tags = tags.concat(category.extraTags.split(','));
         for (var i=0, l=tags.length; i<l; i++) {
             tag = tags[i];
-            if (!source[tag]) continue;
+            value = source.tags[tag];
+            if (!value) continue;
             var row = Qt.createComponent(Qt.resolvedUrl(templates[tag] || "Row.qml"));
-            row.createObject(container, {value: source[tag], text: tag});
+            row.createObject(container, {value: value, text: tag});
         }
 
     }

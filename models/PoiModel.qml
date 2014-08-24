@@ -6,6 +6,7 @@ ListModel {
     property var category
     property string label: category? category.label: '';
     property bool active: !!category
+    property var xhr;
 
     signal error()
     signal loading()
@@ -19,16 +20,16 @@ ListModel {
         url = url.replace(/\{bbox\}/g, bbox);
         url = url.replace(/\{clause\}/g, category.clause);
 
-        var xhr = new XMLHttpRequest;
+        xhr = new XMLHttpRequest;
         xhr.open("GET", url);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
                     fromJSON(JSON.parse(xhr.responseText));
-                    done();
                 } else {
                     error();
                 }
+                done();
             }
         }
 
@@ -38,6 +39,8 @@ ListModel {
 
     function purge () {
         category = null;
+        if (xhr) xhr.abort();
+        done();
         clear();
     }
 
@@ -57,18 +60,7 @@ ListModel {
             }
             place.osm_id = el.id + el.type;
             place.name = el.tags.name || label;
-            place.phone = el.tags.phone;
-            place.website = el.tags.website;
-            place.wheelchair = el.tags.wheelchair;
-            if (category.extraTags) {
-                var tags = category.extraTags.split(','), tag, value;
-                for (var j=0,k=tags.length; j<k; j++) {
-                    tag = tags[j];
-                    value = el.tags[tag];
-                    if (value) place[tag] = value;
-                }
-            }
-            place.cuisine = el.tags.cuisine;
+            place.tags = el.tags || {};
             append(place);
         }
     }
