@@ -8,7 +8,6 @@ import Ubuntu.Components.ListItems 1.0 as ListItem
 import QtQuick.LocalStorage 2.0
 import "../models" as Models
 import "Helpers.js" as Helpers
-import "History.js" as History
 import "poi" as Poi
 
 PageWithBottomEdge {

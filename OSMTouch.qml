@@ -6,10 +6,6 @@ import "components/Helpers.js" as Helpers
 import "components/poi" as Poi
 
 
-/*!
-    \brief MainView with a Label and Button elements.
-*/
-
 MainView {
 
     id: mapView
