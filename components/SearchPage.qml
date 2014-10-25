@@ -43,7 +43,7 @@ Page {
 
     head.contents: TextField {
         id: searchLabel
-        anchors.right: parent.right
+        width: parent ? parent.width - units.gu(2) : undefined
         hasClearButton: true
         focus: true
         placeholderText: i18n.tr("Enter a place name")
@@ -66,7 +66,7 @@ Page {
             id: searchActivity
             anchors {
                 right: searchLabel.right
-                rightMargin: units.gu(6)
+                rightMargin: units.gu(1)
                 verticalCenter: searchLabel.verticalCenter
             }
             running: searchModel.status === XmlListModel.Loading
