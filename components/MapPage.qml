@@ -14,8 +14,7 @@ PageWithBottomEdge {
         id: mapPage
         visible: true
         title: poiPlaceModel.label || 'Map'
-        property double lastKnownLat
-        property double lastKnownLng
+        property bool waitingForPosition
         property alias map: map
         property alias category: poiPlaceModel.category
 
@@ -94,6 +93,11 @@ PageWithBottomEdge {
                 onDone: {
                     mapLoading.hide();
                 }
+            }
+
+            SplashComponent {
+                id: loadingPosition
+                message: i18n.tr("Looking for position…")
             }
 
             SplashComponent {
@@ -239,11 +243,11 @@ PageWithBottomEdge {
                 return [b.bottom, b.left, b.top, b.right].join(",");
             }
 
-            function updateUserPosition (position) {
-                userPosition.coordinate = position.coordinate;
-                positionAccuracy.center = position.coordinate;
-                if (position.horizontalAccuracyValid && position.horizontalAccuracy) {
-                    positionAccuracy.radius = position.horizontalAccuracy;
+            function updateUserPosition () {
+                userPosition.coordinate = src.position.coordinate;
+                positionAccuracy.center = src.position.coordinate;
+                if (src.position.horizontalAccuracyValid && src.position.horizontalAccuracy) {
+                    positionAccuracy.radius = src.position.horizontalAccuracy;
                 }
             }
 
@@ -262,20 +266,16 @@ PageWithBottomEdge {
 
             function goToPosition () {
                 src.update();
-                if (src.position.latitudeValid && src.position.longitudeValid) {
-                    var coord = src.position.coordinate;
-                    map.center.latitude = coord.latitude;
-                    map.center.longitude = coord.longitude;
-                    map.updateUserPosition(src.position);
-                    map.zoomLevel = Math.max(map.zoomLevel, 17);
-                } else if (mapPage.lastKnownLat && mapPage.lastKnownLng) {
-                    map.center.latitude = mapPage.lastKnownLat;
-                    map.center.longitude = mapPage.lastKnownLng;
-                    map.zoomLevel = Math.max(map.zoomLevel, 14);
-                    approximateGeolocation.show();
-                } else {
-                    PopupUtils.open(noPositionDialog);
-                }
+                waitingForPosition = true;
+                mapLoading.show();
+            }
+
+            function centerOnPosition () {
+                var coord = src.position.coordinate;
+                map.center.latitude = coord.latitude;
+                map.center.longitude = coord.longitude;
+                map.updateUserPosition(src.position);
+                map.zoomLevel = Math.max(map.zoomLevel, 17);
             }
 
             function goToLatLng (lat, lng, zoom) {
@@ -312,16 +312,12 @@ PageWithBottomEdge {
             id: src
             active: true
             updateInterval: 1000
-            onPositionChanged: map.updateUserPosition(position)
-        }
-
-        Models.GeoIPModel {
-            // TODO find a way to trigger call only at button click
-            id: geoIP
-            onStatusChanged: {
-                if (status == XmlListModel.Ready && geoIP.get(0).city != "None") {
-                    mapPage.lastKnownLng = geoIP.get(0).lng;
-                    mapPage.lastKnownLat = geoIP.get(0).lat;
+            onPositionChanged: {
+                map.updateUserPosition()
+                if (waitingForPosition) {
+                    waitingForPosition = false;
+                    map.centerOnPosition();
+                    mapLoading.hide();
                 }
             }
         }
