@@ -101,9 +101,8 @@ PageWithBottomEdge {
             }
 
             SplashComponent {
-                id: approximateGeolocation
-                objectName: "approximateGeolocation"
-                message: i18n.tr("No GPS available. Position is approximate.")
+                id: geolocationFailed
+                message: i18n.tr("Geolocation failed.")
             }
 
             SplashComponent {
@@ -264,10 +263,24 @@ PageWithBottomEdge {
                 }
             }
 
+            Timer {
+                id: geolocationTimer
+                interval: 10000
+                repeat: false
+                onTriggered: {
+                    if (waitingForPosition) {  // means failed
+                        waitingForPosition = false;
+                        mapLoading.hide();
+                        geolocationFailed.show();
+                    }
+                }
+            }
+
             function goToPosition () {
                 src.update();
                 waitingForPosition = true;
                 mapLoading.show();
+                geolocationTimer.start();
             }
 
             function centerOnPosition () {
