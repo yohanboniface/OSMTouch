@@ -17,8 +17,6 @@ PageWithBottomEdge {
         property bool waitingForPosition
         property alias map: map
         property alias category: poiPlaceModel.category
-        property MapPolyline trackPoly: null;
-        property var xhr;
 
         head.backAction: Action {
             id: clearPoiAction
@@ -102,17 +100,14 @@ PageWithBottomEdge {
                 }
             }
 
-            Models.RoutingModel {
+            RouteQuery {
+                id: routeQuery
+            }
+
+            RouteModel {
                 id: routingModel
-                onError: {
-                    console.log('Error in routing');
-                }
-                onLoading: {
-                    console.log('Routing...');
-                }
-                onDone: {
-                    console.log('Routing done');
-                }
+                plugin: osmPlugin
+                query: routeQuery
             }
 
             SplashComponent {
@@ -161,6 +156,21 @@ PageWithBottomEdge {
                                 stack.push(Qt.resolvedUrl("./poi/View.qml"),{source: model, category: category});
                             }
                         }
+                    }
+                }
+            }
+
+            MapItemView {
+                model: routingModel
+                delegate: Component {
+                    id: routingDelegate
+
+                    MapRoute {
+                        route: routeData
+                        line.color: "red"
+                        line.width: 5
+                        smooth: true
+                        opacity: 0.8
                     }
                 }
             }
@@ -325,6 +335,15 @@ PageWithBottomEdge {
                 console.log('is visible', searchMarker.visible, searchMarker.coordinate.latitude)
             }
 
+            function navigateTo (lat, lng) {
+                routeQuery.clearWaypoints();
+                var curr = src.position.coordinate;
+                console.log('Current position', curr.latitude, curr.longitude);
+                routeQuery.addWaypoint(curr);
+                routeQuery.addWaypoint(QtPositioning.coordinate(lat, lng));
+//                routeQuery.travelModes = RouteQuery.BicycleTravel;
+                routingModel.update();
+            }
         }
 
         Rectangle {
