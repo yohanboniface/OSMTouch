@@ -17,6 +17,8 @@ PageWithBottomEdge {
         property bool waitingForPosition
         property alias map: map
         property alias category: poiPlaceModel.category
+        property MapPolyline trackPoly: null;
+        property var xhr;
 
         head.backAction: Action {
             id: clearPoiAction
@@ -79,6 +81,11 @@ PageWithBottomEdge {
 
             Component.onCompleted: {
                 src.update();
+                console.log('Supports routing: ', osmPlugin.supportsRouting());
+                var providers = osmPlugin.availableServiceProviders;
+                for (var i=0; i < providers.length; i++) {
+                    console.log('Provider: ', providers[i]);
+                }
             }
 
             Models.PoiModel {
@@ -92,6 +99,19 @@ PageWithBottomEdge {
                 }
                 onDone: {
                     mapLoading.hide();
+                }
+            }
+
+            Models.RoutingModel {
+                id: routingModel
+                onError: {
+                    console.log('Error in routing');
+                }
+                onLoading: {
+                    console.log('Routing...');
+                }
+                onDone: {
+                    console.log('Routing done');
                 }
             }
 
@@ -285,6 +305,7 @@ PageWithBottomEdge {
 
             function centerOnPosition () {
                 var coord = src.position.coordinate;
+                console.log('Current position', coord.latitude, coord.longitude);
                 map.center.latitude = coord.latitude;
                 map.center.longitude = coord.longitude;
                 map.updateUserPosition(src.position);
@@ -303,6 +324,7 @@ PageWithBottomEdge {
                 searchMarker.coordinate.longitude = lng;
                 console.log('is visible', searchMarker.visible, searchMarker.coordinate.latitude)
             }
+
         }
 
         Rectangle {
