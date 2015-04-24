@@ -79,11 +79,6 @@ PageWithBottomEdge {
 
             Component.onCompleted: {
                 src.update();
-                console.log('Supports routing: ', osmPlugin.supportsRouting());
-                var providers = osmPlugin.availableServiceProviders;
-                for (var i=0; i < providers.length; i++) {
-                    console.log('Provider: ', providers[i]);
-                }
             }
 
             Models.PoiModel {
