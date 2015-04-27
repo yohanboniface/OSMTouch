@@ -30,6 +30,14 @@ PageWithBottomEdge {
 
         head.actions: [
             Action {
+                id: navigateAction
+                text: i18n.tr("Navigate")
+                iconSource: Qt.resolvedUrl("../icons/navigate.svg")
+                onTriggered: {
+                    stack.push(navPage)
+                }
+            },
+            Action {
                 id: searchPlaceAction
                 text: i18n.tr("Search a place")
                 iconName: 'search'
@@ -330,14 +338,18 @@ PageWithBottomEdge {
                 console.log('is visible', searchMarker.visible, searchMarker.coordinate.latitude)
             }
 
-            function navigateTo (lat, lng) {
+            function navigate(fromlat, fromlon, tolat, tolon, method) {
                 routeQuery.clearWaypoints();
+                routeQuery.addWaypoint(QtPositioning.coordinate(fromlat, fromlon));
+                routeQuery.addWaypoint(QtPositioning.coordinate(tolat, tolon));
+                routeQuery.travelModes = method || RouteQuery.CarTravel;
+                routingModel.update();
+            }
+
+            function navigateTo (lat, lng) {
                 var curr = src.position.coordinate;
                 console.log('Current position', curr.latitude, curr.longitude);
-                routeQuery.addWaypoint(curr);
-                routeQuery.addWaypoint(QtPositioning.coordinate(lat, lng));
-//                routeQuery.travelModes = RouteQuery.BicycleTravel;
-                routingModel.update();
+                navigate(curr.latitude, curr.longitude, lat, lng, RouteQuery.CarTravel);
             }
         }
 

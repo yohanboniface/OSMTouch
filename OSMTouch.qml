@@ -40,6 +40,10 @@ MainView {
         id: searchPage
     }
 
+    Components.NavPage {
+        id: navPage
+    }
+
     Poi.List {
         id: poiPage
     }
