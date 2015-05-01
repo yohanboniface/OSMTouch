@@ -14,10 +14,10 @@ Page {
     visible: false
 
     property string navState: ""
-    property real fromlon: 0.0
-    property real fromlat: 0.0
-    property real tolon: 0.0
-    property real tolat: 0.0
+    property real fromLon: 0.0
+    property real fromLat: 0.0
+    property real toLon: 0.0
+    property real toLat: 0.0
 
     Models.SearchPlaceModel {
         id: searchModel
@@ -115,8 +115,8 @@ Page {
         text: i18n.tr("By Car")
         anchors.top: endPoint.bottom
         onClicked: {
-            map.navigate(fromlat, fromlon, tolat, tolon, RouteQuery.CarTravel);
-            map.goToLatLng(fromlat, fromlon);
+            map.navigate(fromLat, fromLon, toLat, toLon, RouteQuery.CarTravel);
+            map.goToLatLng(fromLat, fromLon);
             navPage.pageStack.pop();
         }
     }
@@ -178,14 +178,18 @@ Page {
                 }
                 onClicked: {
                     if (navState == "startpoint") {
-                        console.debug("Start point", lat, lng);
-                        fromlat = lat;
-                        fromlon = lng;
+                        console.debug("Start point", name, lat, lng);
+                        startPoint.text = name;
+                        startPoint.color = "green";
+                        fromLat = lat;
+                        fromLon = lng;
                         searchModel.clear()
                     } else if (navState == "endpoint") {
-                        console.debug("End point", lat, lng);
-                        tolat = lat;
-                        tolon = lng;
+                        console.debug("End point", name, lat, lng);
+                        endPoint.text = name;
+                        endPoint.color = "green";
+                        toLat = lat;
+                        toLon = lng;
                         searchModel.clear()
                     }
 

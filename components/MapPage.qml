@@ -30,6 +30,14 @@ PageWithBottomEdge {
 
         head.actions: [
             Action {
+                id: locateAction
+                text: i18n.tr("Where am I")
+                iconSource: Qt.resolvedUrl("../icons/locate.svg")
+                onTriggered: {
+                    map.goToPosition();
+                }
+            },
+            Action {
                 id: navigateAction
                 text: i18n.tr("Navigate")
                 iconSource: Qt.resolvedUrl("../icons/navigate.svg")
@@ -43,14 +51,6 @@ PageWithBottomEdge {
                 iconName: 'search'
                 onTriggered: {
                     stack.push(searchPage);
-                }
-            },
-            Action {
-                id: locateAction
-                text: i18n.tr("Where am I")
-                iconSource: Qt.resolvedUrl("../icons/locate.svg")
-                onTriggered: {
-                    map.goToPosition();
                 }
             },
             Action {
