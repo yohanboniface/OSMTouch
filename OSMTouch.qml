@@ -26,6 +26,7 @@ MainView {
     backgroundColor: "#fff"
 
     property alias map: mapPage.map
+    property alias src: mapPage.src
 
     Components.MapPage {
         id: mapPage

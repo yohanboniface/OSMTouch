@@ -16,6 +16,7 @@ PageWithBottomEdge {
         title: poiPlaceModel.label || 'Map'
         property bool waitingForPosition
         property alias map: map
+        property alias src: src
         property alias category: poiPlaceModel.category
 
         head.backAction: Action {

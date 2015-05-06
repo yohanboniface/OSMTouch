@@ -14,10 +14,14 @@ Page {
     visible: false
 
     property string navState: ""
-    property real fromLon: 0.0
-    property real fromLat: 0.0
-    property real toLon: 0.0
-    property real toLat: 0.0
+    property real fromLon: ((src.valid && src.position.longitudeValid) ?
+                             src.position.coordinate.longitude : 0.0)
+    property real fromLat: ((src.valid && src.position.latitudeValid) ?
+                             src.position.coordinate.latitude : 0.0)
+    property real toLon: ((src.valid && src.position.longitudeValid) ?
+                              src.position.coordinate.longitude : 0.0)
+    property real toLat: ((src.valid && src.position.latitudeValid) ?
+                              src.position.coordinate.latitude : 0.0)
 
     Models.SearchPlaceModel {
         id: searchModel
@@ -51,7 +55,7 @@ Page {
         width: parent ? parent.width - units.gu(2) : undefined
         hasClearButton: true
         focus: true
-        placeholderText: i18n.tr("Enter a place name to start from")
+        placeholderText: i18n.tr("From current location (or enter place name.)")
         primaryItem: Image {
             height: parent.height*0.5
             width: parent.height*0.5
@@ -83,7 +87,7 @@ Page {
         anchors.top: startPoint.bottom
         width: parent ? parent.width - units.gu(2) : undefined
         hasClearButton: true
-        placeholderText: i18n.tr("Enter a place name to go to")
+        placeholderText: i18n.tr("To current location (or enter place name.)")
         primaryItem: Image {
             height: parent.height*0.5
             width: parent.height*0.5
