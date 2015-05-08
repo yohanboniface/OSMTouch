@@ -25,8 +25,9 @@ PageWithBottomEdge {
             text: i18n.tr("Clear")
             onTriggered: {
                 poiPlaceModel.purge();
+                routingModel.reset()
             }
-            visible: poiPlaceModel.active
+            visible: poiPlaceModel.active || routingModel.status == RouteModel.Ready
         }
 
         head.actions: [
@@ -112,6 +113,19 @@ PageWithBottomEdge {
                 id: routingModel
                 plugin: osmPlugin
                 query: routeQuery
+
+//                onCountChanged: {
+//                    console.log('Count:', count);
+//                    if (count == 1) {
+//                        var route = get(0);
+//                        console.log('Distance:', route.distance);
+//                        console.log('Time:', route.travelTime);
+//                        var segments = route.segments;
+//                        for (var i=0; i < segments.length; i++) {
+//                            console.log('Maneuver: ', segments[i].maneuver.instructionText);
+//                        }
+//                    }
+//                }
             }
 
             SplashComponent {
