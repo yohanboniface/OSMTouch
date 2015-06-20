@@ -26,6 +26,7 @@ PageWithBottomEdge {
             onTriggered: {
                 poiPlaceModel.purge();
                 routingModel.reset()
+                map.followme = false;
             }
             visible: poiPlaceModel.active || routingModel.status == RouteModel.Ready
         }
@@ -74,6 +75,7 @@ PageWithBottomEdge {
             }
             StateSaver.properties: "zoomLevel,center.latitude,center.longitude"
             property var poiBbox
+            property bool followme: false
             readonly property int minPoiZoom: 15
 
             plugin: Plugin {
@@ -359,6 +361,7 @@ PageWithBottomEdge {
                 routeQuery.addWaypoint(QtPositioning.coordinate(tolat, tolon));
                 routeQuery.travelModes = method || RouteQuery.CarTravel;
                 routingModel.update();
+                followme = true;
             }
 
             function navigateTo (lat, lng) {
@@ -390,6 +393,9 @@ PageWithBottomEdge {
             updateInterval: 1000
             onPositionChanged: {
                 map.updateUserPosition()
+                if (map.followme) {
+                    map.centerOnPosition();
+                }
                 if (waitingForPosition) {
                     waitingForPosition = false;
                     map.centerOnPosition();
