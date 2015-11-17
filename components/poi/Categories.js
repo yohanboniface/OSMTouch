@@ -31,7 +31,8 @@ var groups = [
                     {label: i18n.tr("Post Box"), clause: "[amenity=post_box]"},
                     {label: i18n.tr("Bank"), clause: "[amenity=bank]"},
                     {label: i18n.tr("Toilets"), clause: "[amenity=toilets]"},
-                    {label: i18n.tr("Recycling container"), clause: "[amenity=recycling][recycling_type=container]"}
+                    {label: i18n.tr("Recycling container"), clause: "[amenity=recycling][recycling_type=container]"},
+                    {label: i18n.tr("Drinking Water"), clause: "[amenity=drinking_water]"},
                 ]
             },
             {
