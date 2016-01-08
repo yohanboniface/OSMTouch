@@ -16,6 +16,7 @@ PageWithBottomEdge {
         title: poiPlaceModel.label || 'Map'
         property bool waitingForPosition
         property alias map: map
+        property alias src: src
         property alias category: poiPlaceModel.category
 
         head.backAction: Action {
@@ -24,25 +25,35 @@ PageWithBottomEdge {
             text: i18n.tr("Clear")
             onTriggered: {
                 poiPlaceModel.purge();
+                routingModel.reset()
+                map.followme = false;
             }
-            visible: poiPlaceModel.active
+            visible: poiPlaceModel.active || routingModel.status == RouteModel.Ready
         }
 
         head.actions: [
-            Action {
-                id: searchPlaceAction
-                text: i18n.tr("Search a place")
-                iconName: 'search'
-                onTriggered: {
-                    stack.push(searchPage);
-                }
-            },
             Action {
                 id: locateAction
                 text: i18n.tr("Where am I")
                 iconSource: Qt.resolvedUrl("../icons/locate.svg")
                 onTriggered: {
                     map.goToPosition();
+                }
+            },
+            Action {
+                id: navigateAction
+                text: i18n.tr("Navigate")
+                iconSource: Qt.resolvedUrl("../icons/navigate.svg")
+                onTriggered: {
+                    stack.push(navPage)
+                }
+            },
+            Action {
+                id: searchPlaceAction
+                text: i18n.tr("Search a place")
+                iconName: 'search'
+                onTriggered: {
+                    stack.push(searchPage);
                 }
             },
             Action {
@@ -64,6 +75,7 @@ PageWithBottomEdge {
             }
             StateSaver.properties: "zoomLevel,center.latitude,center.longitude"
             property var poiBbox
+            property bool followme: false
             readonly property int minPoiZoom: 15
 
             plugin: Plugin {
@@ -93,6 +105,29 @@ PageWithBottomEdge {
                 onDone: {
                     mapLoading.hide();
                 }
+            }
+
+            RouteQuery {
+                id: routeQuery
+            }
+
+            RouteModel {
+                id: routingModel
+                plugin: osmPlugin
+                query: routeQuery
+
+//                onCountChanged: {
+//                    console.log('Count:', count);
+//                    if (count == 1) {
+//                        var route = get(0);
+//                        console.log('Distance:', route.distance);
+//                        console.log('Time:', route.travelTime);
+//                        var segments = route.segments;
+//                        for (var i=0; i < segments.length; i++) {
+//                            console.log('Maneuver: ', segments[i].maneuver.instructionText);
+//                        }
+//                    }
+//                }
             }
 
             SplashComponent {
@@ -141,6 +176,21 @@ PageWithBottomEdge {
                                 stack.push(Qt.resolvedUrl("./poi/View.qml"),{source: model, category: category});
                             }
                         }
+                    }
+                }
+            }
+
+            MapItemView {
+                model: routingModel
+                delegate: Component {
+                    id: routingDelegate
+
+                    MapRoute {
+                        route: routeData
+                        line.color: "red"
+                        line.width: 5
+                        smooth: true
+                        opacity: 0.8
                     }
                 }
             }
@@ -285,6 +335,7 @@ PageWithBottomEdge {
 
             function centerOnPosition () {
                 var coord = src.position.coordinate;
+                console.log('Current position', coord.latitude, coord.longitude);
                 map.center.latitude = coord.latitude;
                 map.center.longitude = coord.longitude;
                 map.updateUserPosition(src.position);
@@ -302,6 +353,21 @@ PageWithBottomEdge {
                 searchMarker.coordinate.latitude = lat;
                 searchMarker.coordinate.longitude = lng;
                 console.log('is visible', searchMarker.visible, searchMarker.coordinate.latitude)
+            }
+
+            function navigate(fromlat, fromlon, tolat, tolon, method) {
+                routeQuery.clearWaypoints();
+                routeQuery.addWaypoint(QtPositioning.coordinate(fromlat, fromlon));
+                routeQuery.addWaypoint(QtPositioning.coordinate(tolat, tolon));
+                routeQuery.travelModes = method || RouteQuery.CarTravel;
+                routingModel.update();
+                followme = true;
+            }
+
+            function navigateTo (lat, lng) {
+                var curr = src.position.coordinate;
+                console.log('Current position', curr.latitude, curr.longitude);
+                navigate(curr.latitude, curr.longitude, lat, lng, RouteQuery.CarTravel);
             }
         }
 
@@ -327,6 +393,9 @@ PageWithBottomEdge {
             updateInterval: 1000
             onPositionChanged: {
                 map.updateUserPosition()
+                if (map.followme) {
+                    map.centerOnPosition();
+                }
                 if (waitingForPosition) {
                     waitingForPosition = false;
                     map.centerOnPosition();

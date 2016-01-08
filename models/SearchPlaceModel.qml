@@ -12,6 +12,10 @@ XmlListModel {
         source = (searchUrl + searchString + "&limit=" + limit + "&viewbox=" + map.toBboxString());
     }
 
+    function clear() {
+        source = "";
+    }
+
     source: ""
     query: "/searchresults/place"
 

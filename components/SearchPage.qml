@@ -109,6 +109,7 @@ Page {
                     History.push(name, lat, lng);
                     map.goToLatLng(lat, lng);
                     map.addSearchMarker(lat, lng);
+                    map.navigateTo(lat, lng);
                     searchPage.pageStack.pop();
                 }
             }

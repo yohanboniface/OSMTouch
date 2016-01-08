@@ -26,6 +26,7 @@ MainView {
     backgroundColor: "#fff"
 
     property alias map: mapPage.map
+    property alias src: mapPage.src
 
     Components.MapPage {
         id: mapPage
@@ -38,6 +39,10 @@ MainView {
 
     Components.SearchPage {
         id: searchPage
+    }
+
+    Components.NavPage {
+        id: navPage
     }
 
     Poi.List {
