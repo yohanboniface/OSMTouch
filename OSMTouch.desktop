@@ -1,9 +1,0 @@
-[Desktop Entry]
-Name=OSMTouch
-Comment=A very simple OpenStreetMap based map app.
-Exec=qmlscene $@ OSMTouch.qml
-Icon=OSMTouch64.png
-Terminal=false
-Type=Application
-Keywords=Maps,Navigation,OpenStreetMap,Location;
-X-Ubuntu-Touch=true
